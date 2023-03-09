@@ -1,4 +1,4 @@
-FROM golang:golang:1.20.2
+FROM golang:1.20.2
 
 ARG ARM_CLIENT_ID
 ARG ARM_CLIENT_SECRET
