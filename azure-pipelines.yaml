@@ -1,0 +1,24 @@
+trigger:
+  - main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  dockerfilePath: '**/Dockerfile'
+
+stages:
+  - stage: Test
+    displayName: Test Terraform modules
+    jobs:
+      - job: Build
+        displayName: Build
+        steps:
+          - checkout: self
+            persistCredentials: true
+          - task: Docker@2
+            displayName: Run Terraform modules tests
+            inputs:
+              command: build
+              dockerfile: $(dockerfilePath)
+              arguments: --build-arg ARM_CLIENT_ID=$(ARM_CLIENT_ID) ARM_CLIENT_SECRET=$(ARM_CLIENT_SECRET) ARM_TENANT_ID=$(ARM_TENANT_ID) ARM_SUBSCRIPTION_ID=$(ARM_SUBSCRIPTION_ID)
