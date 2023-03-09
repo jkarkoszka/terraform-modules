@@ -21,4 +21,4 @@ stages:
             inputs:
               command: build
               dockerfile: $(dockerfilePath)
-              arguments: --build-arg ARM_CLIENT_ID=$(ARM_CLIENT_ID) ARM_CLIENT_SECRET=$(ARM_CLIENT_SECRET) ARM_TENANT_ID=$(ARM_TENANT_ID) ARM_SUBSCRIPTION_ID=$(ARM_SUBSCRIPTION_ID)
+              arguments: --build-arg ARM_CLIENT_ID=$(ARM_CLIENT_ID) --build-arg ARM_CLIENT_SECRET=$(ARM_CLIENT_SECRET) --build-arg ARM_TENANT_ID=$(ARM_TENANT_ID) --build-arg ARM_SUBSCRIPTION_ID=$(ARM_SUBSCRIPTION_ID)
