@@ -4,9 +4,6 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 
-variables:
-  dockerfilePath: '**/Dockerfile'
-
 stages:
   - stage: Test
     displayName: Test Terraform modules
@@ -20,9 +17,9 @@ stages:
             displayName: Run Terraform modules tests
             inputs:
               command: build
-              dockerfile: $(dockerfilePath)
+              Dockerfile: '**/Dockerfile'
               arguments: |
-                --build-arg ARM_CLIENT_ID=$(ARM_CLIENT_ID) \
-                --build-arg ARM_CLIENT_SECRET=$(ARM_CLIENT_SECRET) \
-                --build-arg ARM_TENANT_ID=$(ARM_TENANT_ID) \
+                --build-arg ARM_CLIENT_ID=$(ARM_CLIENT_ID)
+                --build-arg ARM_CLIENT_SECRET=$(ARM_CLIENT_SECRET)
+                --build-arg ARM_TENANT_ID=$(ARM_TENANT_ID)
                 --build-arg ARM_SUBSCRIPTION_ID=$(ARM_SUBSCRIPTION_ID)
