@@ -1,4 +1,4 @@
-FROM golang:1.20.2
+FROM jkarkoszka/azure-terratest-runner:latest
 
 ARG ARM_CLIENT_ID
 ARG ARM_CLIENT_SECRET
@@ -10,7 +10,9 @@ ENV ARM_CLIENT_SECRET $ARM_CLIENT_SECRET
 ENV ARM_TENANT_ID $ARM_TENANT_ID
 ENV ARM_SUBSCRIPTION_ID $ARM_SUBSCRIPTION_ID
 
-WORKDIR /terraform-modules
 COPY . /terraform-modules
 
-RUN cd test && go test -run TestRgModule
+WORKDIR /terraform-modules/test
+
+RUN az login --service-principal -u $ARM_CLIENT_ID -p $ARM_CLIENT_SECRET --tenant $ARM_TENANT_ID
+RUN go test -run TestRgModule
