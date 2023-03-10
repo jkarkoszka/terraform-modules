@@ -15,4 +15,4 @@ COPY . /terraform-modules
 WORKDIR /terraform-modules/test
 
 RUN az login --service-principal -u $ARM_CLIENT_ID -p $ARM_CLIENT_SECRET --tenant $ARM_TENANT_ID
-RUN go test -run TestRgModule
+RUN go test -v -timeout 60m
