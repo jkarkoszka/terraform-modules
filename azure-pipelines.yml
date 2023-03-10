@@ -2,7 +2,7 @@ trigger:
   - main
 
 pool:
-  vmImage: 'ubuntu-latest'
+  vmImage: 'ubuntu-22.04'
 
 stages:
   - stage: Test
@@ -18,6 +18,8 @@ stages:
             inputs:
               command: build
               Dockerfile: '**/Dockerfile'
+              addPipelineData: false
+              addBaseImageData: false
               arguments: |
                 --build-arg ARM_CLIENT_ID=$(ARM_CLIENT_ID)
                 --build-arg ARM_CLIENT_SECRET=$(ARM_CLIENT_SECRET)
