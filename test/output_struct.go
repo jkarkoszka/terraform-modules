@@ -19,3 +19,8 @@ type NatGateway struct {
 	PublicIpAddresses []string `json:"public_ip_addresses"`
 	PublicIpIds       []string `json:"public_ip_ids"`
 }
+
+type DefaultNatGateway struct {
+	natGateway NatGateway `json:"nat_gateway"`
+	publicIp   PublicIp   `json:"public_ip"`
+}

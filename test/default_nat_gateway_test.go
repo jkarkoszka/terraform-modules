@@ -8,13 +8,13 @@ import (
 	"testing"
 )
 
-func TestNatGatewayModule(t *testing.T) {
+func TestDefaultNatGatewayModule(t *testing.T) {
 	//given
 	t.Parallel()
 
 	expectedNumberOfPublicIps := 1
 
-	tfDir := "examples/azure/nat_gateway"
+	tfDir := "examples/azure/default_nat_gateway"
 	prefix := "tftest"
 	label := random.UniqueId()
 	tfVars := map[string]interface{}{
@@ -33,15 +33,16 @@ func TestNatGatewayModule(t *testing.T) {
 	resourceGroupExists := azure.ResourceGroupExists(t, rg.Name, "")
 	assert.True(t, resourceGroupExists, "Resource group does not exist")
 
-	var publicIp PublicIp
-	terraform.OutputStruct(t, tfOptions, "public_ip", &publicIp)
+	var defaultNatGateway DefaultNatGateway
+	terraform.OutputStruct(t, tfOptions, "default_nat_gateway", &defaultNatGateway)
+
+	var publicIp = defaultNatGateway.publicIp
 	publicIpExists := azure.PublicAddressExists(t, publicIp.Name, rg.Name, "")
 	assert.True(t, publicIpExists, "Public IP does not exist")
 
 	publicIpApiData, _ := azure.GetPublicIPAddressE(publicIp.Name, rg.Name, "")
 
-	var natGateway NatGateway
-	terraform.OutputStruct(t, tfOptions, "nat_gateway", &natGateway)
+	var natGateway = defaultNatGateway.natGateway
 	assert.NotEmpty(t, natGateway.Id)
 	assert.Equal(t, natGateway.Name, prefix+"-"+label+"-nat-gateway")
 	assert.Equal(t, natGateway.ResourceGroupName, rg.Name)

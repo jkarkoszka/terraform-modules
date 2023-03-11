@@ -37,6 +37,6 @@ func TestRgModule(t *testing.T) {
 	resourceGroupExists := azure.ResourceGroupExists(t, rg.Name, "")
 	assert.True(t, resourceGroupExists, "Resource group does not exist")
 
-	resourceGroupData := azure.GetAResourceGroup(t, rg.Name, "")
-	assert.Equal(t, expectedTags, resourceGroupData.Tags)
+	resourceGroupApiData := azure.GetAResourceGroup(t, rg.Name, "")
+	assert.Equal(t, expectedTags, resourceGroupApiData.Tags)
 }

@@ -51,12 +51,12 @@ func TestPublicIPModule(t *testing.T) {
 	publicIpExists := azure.PublicAddressExists(t, publicIp.Name, rg.Name, "")
 	assert.True(t, publicIpExists, "Public IP does not exist")
 
-	publicIpData, _ := azure.GetPublicIPAddressE(publicIp.Name, rg.Name, "")
-	assert.Equal(t, expectedAllocationMethod, publicIpData.PublicIPAllocationMethod)
-	assert.Equal(t, expectedZones, publicIpData.Zones)
-	assert.Equal(t, expectedSkuName, publicIpData.Sku.Name)
-	assert.Equal(t, expectedIdleTimeoutInMinutes, publicIpData.IdleTimeoutInMinutes)
-	assert.Equal(t, expectedTags, publicIpData.Tags)
+	publicIpApiData, _ := azure.GetPublicIPAddressE(publicIp.Name, rg.Name, "")
+	assert.Equal(t, expectedAllocationMethod, publicIpApiData.PublicIPAllocationMethod)
+	assert.Equal(t, expectedZones, publicIpApiData.Zones)
+	assert.Equal(t, expectedSkuName, publicIpApiData.Sku.Name)
+	assert.Equal(t, expectedIdleTimeoutInMinutes, publicIpApiData.IdleTimeoutInMinutes)
+	assert.Equal(t, expectedTags, publicIpApiData.Tags)
 }
 
 func TestPublicIPModuleWithSkuBasic(t *testing.T) {
@@ -102,12 +102,12 @@ func TestPublicIPModuleWithSkuBasic(t *testing.T) {
 	publicIpExists := azure.PublicAddressExists(t, publicIp.Name, rg.Name, "")
 	assert.True(t, publicIpExists, "Public IP does not exist")
 
-	publicIpData, _ := azure.GetPublicIPAddressE(publicIp.Name, rg.Name, "")
-	assert.Equal(t, expectedAllocationMethod, publicIpData.PublicIPAllocationMethod)
-	assert.Equal(t, expectedZones, publicIpData.Zones)
-	assert.Equal(t, expectedSkuName, publicIpData.Sku.Name)
-	assert.Equal(t, expectedIdleTimeoutInMinutes, publicIpData.IdleTimeoutInMinutes)
-	assert.Equal(t, expectedTags, publicIpData.Tags)
+	publicIpApiData, _ := azure.GetPublicIPAddressE(publicIp.Name, rg.Name, "")
+	assert.Equal(t, expectedAllocationMethod, publicIpApiData.PublicIPAllocationMethod)
+	assert.Equal(t, expectedZones, publicIpApiData.Zones)
+	assert.Equal(t, expectedSkuName, publicIpApiData.Sku.Name)
+	assert.Equal(t, expectedIdleTimeoutInMinutes, publicIpApiData.IdleTimeoutInMinutes)
+	assert.Equal(t, expectedTags, publicIpApiData.Tags)
 }
 
 func TestPublicIPModuleWithZones(t *testing.T) {
@@ -152,12 +152,12 @@ func TestPublicIPModuleWithZones(t *testing.T) {
 	assert.Equal(t, publicIp.ResourceGroupName, rg.Name)
 
 	assert.True(t, publicIpExists, "Public IP does not exist")
-	publicIpData, _ := azure.GetPublicIPAddressE(publicIp.Name, rg.Name, "")
-
-	assert.Equal(t, expectedAllocationMethod, publicIpData.PublicIPAllocationMethod)
+	publicIpApiData, _ := azure.GetPublicIPAddressE(publicIp.Name, rg.Name, "")
+	assert.Equal(t, &publicIp.IpAddress, publicIpApiData.IPAddress)
+	assert.Equal(t, expectedAllocationMethod, publicIpApiData.PublicIPAllocationMethod)
 	//todo: wait for azure-sdk-for-go upgrade in terratest deps
-	//assert.Equal(t, &expectedZones, publicIpData.Zones)
-	assert.Equal(t, expectedSkuName, publicIpData.Sku.Name)
-	assert.Equal(t, expectedIdleTimeoutInMinutes, publicIpData.IdleTimeoutInMinutes)
-	assert.Equal(t, expectedTags, publicIpData.Tags)
+	//assert.Equal(t, &expectedZones, publicIpApiData.Zones)
+	assert.Equal(t, expectedSkuName, publicIpApiData.Sku.Name)
+	assert.Equal(t, expectedIdleTimeoutInMinutes, publicIpApiData.IdleTimeoutInMinutes)
+	assert.Equal(t, expectedTags, publicIpApiData.Tags)
 }
