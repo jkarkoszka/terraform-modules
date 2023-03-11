@@ -32,24 +32,6 @@ variable "subnet_address_prefixes" {
   default     = ["10.1.1.0/24"]
 }
 
-variable "public_ip_sku_name" {
-  type        = string
-  description = "(Optional) The SKU of the Public IP. Accepted values are Basic and Standard. Defaults to Standard. Changing this forces a new resource to be created."
-  default     = "Standard"
-}
-
-variable "nat_sku_name" {
-  type        = string
-  description = "(Optional) The SKU which should be used. At this time the only supported value is Standard. Defaults to Standard."
-  default     = "Standard"
-}
-
-variable "zones" {
-  type        = list(string)
-  description = "(Optional) Specifies a list of Availability Zones in which this NAT Gateway should be located. Changing this forces a new NAT Gateway to be created."
-  default     = []
-}
-
 variable "create_route_table" {
   type        = bool
   description = "If Route Table should be created and attached to subnet."
@@ -60,6 +42,24 @@ variable "create_nat_gateway" {
   type        = bool
   description = "If NAT Gateway should be created and attached to subnet."
   default     = false
+}
+
+variable "public_ip_sku_name" {
+  type        = string
+  description = "(Optional) The SKU of the Public IP. Accepted values are Basic and Standard. Defaults to Standard. Only used when NAT Gateway is created. Changing this forces a new resource to be created."
+  default     = "Standard"
+}
+
+variable "nat_sku_name" {
+  type        = string
+  description = "(Optional) The SKU which should be used. At this time the only supported value is Standard. Defaults to Standard. Only used when NAT Gateway is created."
+  default     = "Standard"
+}
+
+variable "zones" {
+  type        = list(string)
+  description = "(Optional) Specifies a list of Availability Zones in which this NAT Gateway and/or Route Table should be located. Only used when NAT Gateway or Route table is created. Changing this forces a new NAT Gateway and/or Route Table to be created."
+  default     = []
 }
 
 variable "tags" {

@@ -43,14 +43,14 @@ func TestDefaultNatGatewayModule(t *testing.T) {
 	publicIpExists := azure.PublicAddressExists(t, publicIp.Name, rg.Name, "")
 	assert.True(t, publicIpExists, "Public IP does not exist")
 
-	publicIpApiData, _ := azure.GetPublicIPAddressE(publicIp.Name, rg.Name, "")
-
 	var natGateway = defaultNatGateway.NatGateway
 	assert.NotEmpty(t, natGateway.Id)
 	assert.Equal(t, expectedNatGatewayName, natGateway.Name)
 	assert.Equal(t, rg.Name, natGateway.ResourceGroupName)
 	assert.Len(t, natGateway.PublicIpAddresses, expectedNumberOfPublicIps)
 	assert.Len(t, natGateway.PublicIpIds, expectedNumberOfPublicIps)
+
+	publicIpApiData, _ := azure.GetPublicIPAddressE(publicIp.Name, rg.Name, "")
 	assert.Contains(t, natGateway.PublicIpAddresses, *publicIpApiData.IPAddress)
 	//todo: when it's avaiable in API check if NAT Gateway is created and properly configured.
 }

@@ -32,8 +32,17 @@ type RouteTable struct {
 }
 
 type Subnet struct {
-	Id                string `json:"id"`
-	Name              string `json:"name"`
-	ResourceGroupName string `json:"resource_group_name"`
-	VnetName          string `json:"vnet_name"`
+	Id                string   `json:"id"`
+	Name              string   `json:"name"`
+	ResourceGroupName string   `json:"resource_group_name"`
+	VnetName          string   `json:"vnet_name"`
+	AddressPrefixes   []string `json:"address_prefixes"`
+}
+
+type Vnet struct {
+	Id                string   `json:"id"`
+	Name              string   `json:"name"`
+	ResourceGroupName string   `json:"resource_group_name"`
+	AddressSpace      []string `json:"address_space"`
+	Subnets           []Subnet `json:"subnets"`
 }

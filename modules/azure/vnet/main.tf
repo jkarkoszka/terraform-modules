@@ -23,7 +23,7 @@ resource "azurerm_virtual_network" "vnet" {
 
 module "subnet" {
   count  = length(var.subnets)
-  source = "../vnet_subnet"
+  source = "../subnet"
 
   prefix              = local.subnet_prefix
   label               = var.subnets[count.index].label

@@ -6,14 +6,6 @@ module "rg" {
   label    = var.label
 }
 
-resource "azurerm_virtual_network" "vnet" {
-  name                = "${var.prefix}-${var.label}-vnet"
-  location            = var.location
-  resource_group_name = module.rg.name
-  address_space       = var.vnet_address_space
-  tags                = var.tags
-}
-
 module "default_nat_gateway" {
   count  = var.create_nat_gateway ? 1 : 0
   source = "../../../modules/azure/default_nat_gateway"
@@ -39,23 +31,15 @@ module "route_table" {
   tags                = var.tags
 }
 
-module "subnet" {
-  source = "../../../modules/azure/vnet_subnet"
+module "vnet" {
+  source = "../../../modules/azure/vnet"
 
   prefix              = var.prefix
   label               = var.label
   location            = var.location
   resource_group_name = module.rg.name
-  vnet_name           = azurerm_virtual_network.vnet.name
-  address_prefixes    = var.subnet_address_prefixes
-  route_table         = var.create_route_table ? {
-    resource_group_name = module.route_table[0].resource_group_name
-    name                = module.route_table[0].name
-  } : null
-  nat_gateway = var.create_nat_gateway ? {
-    resource_group_name = module.default_nat_gateway[0].nat_gateway.resource_group_name
-    name                = module.default_nat_gateway[0].nat_gateway.name
-  } : null
-  tags       = var.tags
-  depends_on = [module.route_table, module.default_nat_gateway]
+  vnet_address_space  = var.vnet_address_space
+  subnets             = var.subnets
+  tags                = var.tags
+  depends_on          = [module.route_table, module.default_nat_gateway]
 }

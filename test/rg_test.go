@@ -17,6 +17,7 @@ func TestRgModule(t *testing.T) {
 	prefix := "tftest"
 	label := random.UniqueId()
 
+	expectedResourceGroupName := prefix + "-" + label + "-rg"
 	expectedTags := map[string]*string{
 		"tfTest": toPtr("true"),
 	}
@@ -35,7 +36,7 @@ func TestRgModule(t *testing.T) {
 	var rg ResourceGroup
 	terraform.OutputStruct(t, tfOptions, "rg", &rg)
 
-	assert.Equal(t, rg.Name, prefix+"-"+label+"-rg")
+	assert.Equal(t, rg.Name, expectedResourceGroupName)
 	assert.NotEmpty(t, rg.Id)
 
 	resourceGroupExists := azure.ResourceGroupExists(t, rg.Name, "")

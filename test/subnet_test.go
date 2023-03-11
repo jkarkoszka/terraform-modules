@@ -8,11 +8,11 @@ import (
 	"testing"
 )
 
-func TestVnetSubnetModule(t *testing.T) {
+func TestSubnetModule(t *testing.T) {
 	//given
 	t.Parallel()
 
-	tfDir := "examples/azure/vnet_subnet"
+	tfDir := "examples/azure/subnet"
 
 	prefix := "tftest"
 	label := random.UniqueId()
@@ -20,12 +20,12 @@ func TestVnetSubnetModule(t *testing.T) {
 
 	expectedSubnetName := prefix + "-" + label + "-subnet"
 	expectedSubnetAddressPrefix := "10.1.1.0/24"
-	addressPrefixes := []string{expectedSubnetAddressPrefix}
+	expectedAddressPrefixes := []string{expectedSubnetAddressPrefix}
 	tfVars := map[string]interface{}{
 		"prefix":                  prefix,
 		"label":                   label,
 		"vnet_address_space":      vnetAddressPrefixes,
-		"subnet_address_prefixes": addressPrefixes,
+		"subnet_address_prefixes": expectedAddressPrefixes,
 	}
 	tfOptions := prepareTerraformOptions(t, tfDir, tfVars)
 	defer terraform.Destroy(t, tfOptions)
@@ -44,6 +44,7 @@ func TestVnetSubnetModule(t *testing.T) {
 	assert.NotEmpty(t, subnet.Id)
 	assert.Equal(t, expectedSubnetName, subnet.Name)
 	assert.Equal(t, rg.Name, subnet.ResourceGroupName)
+	assert.Equal(t, expectedAddressPrefixes, subnet.AddressPrefixes)
 
 	subnetExists := azure.SubnetExists(t, subnet.Name, subnet.VnetName, subnet.ResourceGroupName, "")
 	assert.True(t, subnetExists, "Subnet does not exist")
@@ -55,11 +56,11 @@ func TestVnetSubnetModule(t *testing.T) {
 	assert.Empty(t, subnetApiData.NatGateway)
 }
 
-func TestVnetSubnetModuleWithRouteTableAndNatGateway(t *testing.T) {
+func TestSubnetModuleWithRouteTableAndNatGateway(t *testing.T) {
 	//given
 	t.Parallel()
 
-	tfDir := "examples/azure/vnet_subnet"
+	tfDir := "examples/azure/subnet"
 
 	prefix := "tftest"
 	label := random.UniqueId()
@@ -67,12 +68,12 @@ func TestVnetSubnetModuleWithRouteTableAndNatGateway(t *testing.T) {
 
 	expectedSubnetName := prefix + "-" + label + "-subnet"
 	expectedSubnetAddressPrefix := "10.1.1.0/24"
-	addressPrefixes := []string{expectedSubnetAddressPrefix}
+	expectedAddressPrefixes := []string{expectedSubnetAddressPrefix}
 	tfVars := map[string]interface{}{
 		"prefix":                  prefix,
 		"label":                   label,
 		"vnet_address_space":      vnetAddressPrefixes,
-		"subnet_address_prefixes": addressPrefixes,
+		"subnet_address_prefixes": expectedAddressPrefixes,
 		"create_nat_gateway":      true,
 		"create_route_table":      true,
 	}
@@ -93,6 +94,7 @@ func TestVnetSubnetModuleWithRouteTableAndNatGateway(t *testing.T) {
 	assert.NotEmpty(t, subnet.Id)
 	assert.Equal(t, expectedSubnetName, subnet.Name)
 	assert.Equal(t, rg.Name, subnet.ResourceGroupName)
+	assert.Equal(t, expectedAddressPrefixes, subnet.AddressPrefixes)
 
 	subnetExists := azure.SubnetExists(t, subnet.Name, subnet.VnetName, subnet.ResourceGroupName, "")
 	assert.True(t, subnetExists, "Subnet does not exist")

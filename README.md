@@ -1,7 +1,9 @@
 1. default_nat_gateway - public_ip + nat_gateway - DONE
 2. route_table - basic module - DONE
-3. vnet/subnet
-4. default vnet = subnet definition + default_nat_gatway + route_table
+3. vnet/subnet - DONE
+3.1 add more outputs to subnet (ip addresses, route table, nat_gateway) - DONE
+3.2 add NGS to subnet/vnet: ngs module, default_ngs, ngs association in subnet module
+4. default vnet = subnet definition + default_nat_gatway + route_table + default_ngs
 5. k8s
 6. default_k8s = default_vnet + k8s
 7. k8s configuration as separate modules
