@@ -4,19 +4,19 @@
 
 variable "location" {
   type        = string
-  description = "The location of the resources."
+  description = "The location"
   default     = "westeurope"
 }
 
 variable "prefix" {
   type        = string
-  description = "The prefix used for the name of the resources."
+  description = "The prefix"
   default     = "tftest"
 }
 
 variable "label" {
   type        = string
-  description = "The label used for the name eg. $/{prefix/}-$/{label/}-nat-gateway"
+  description = "The label"
   default     = "abcdfg"
 }
 

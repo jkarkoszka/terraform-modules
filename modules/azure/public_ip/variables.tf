@@ -2,9 +2,14 @@
 # REQUIRED MODULE PARAMETERS
 # ---------------------------------------------------------------------------------------------------------------------
 
+variable "prefix" {
+  type        = string
+  description = "The prefix"
+}
+
 variable "location" {
   type        = string
-  description = "The location of the resources."
+  description = "The location"
 }
 
 variable "resource_group_name" {
@@ -12,14 +17,9 @@ variable "resource_group_name" {
   description = "The name of your Resource Group"
 }
 
-variable "prefix" {
-  type        = string
-  description = "The label used for the name of the Resource Group eg. $/{prefix/}-$/{label/}-public-ip"
-}
-
 variable "label" {
   type        = string
-  description = "The label of the Public IP"
+  description = "The label"
 }
 
 # ---------------------------------------------------------------------------------------------------------------------

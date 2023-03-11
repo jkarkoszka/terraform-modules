@@ -4,12 +4,12 @@
 
 variable "prefix" {
   type        = string
-  description = "The prefix for the resources created in the specified Azure Resource Group"
+  description = "The prefix"
 }
 
 variable "location" {
   type        = string
-  description = "The location of your Resource Group"
+  description = "The location"
 }
 
 variable "resource_group_name" {
@@ -19,7 +19,7 @@ variable "resource_group_name" {
 
 variable "label" {
   type        = string
-  description = "The label of the Azure virtual network"
+  description = "The label"
 }
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -28,28 +28,24 @@ variable "label" {
 
 variable "vnet_address_space" {
   type        = list(string)
-  description = "The address space to be used for the Azure virtual network."
+  description = "The address space to be used for the Azure Virtual Network."
   default     = ["10.1.0.0/16"]
 }
 
 variable "subnets" {
   type = list(object({
-    label                = string
-    address_prefixes     = list(string)
-    create_route_table   = bool
-    external_route_table = optional(object({ name = string, resource_group_name = string }))
-    create_nat_gateway   = bool
-    external_nat_gateway = optional(object({ name = string, resource_group_name = string }))
+    label            = string
+    address_prefixes = list(string)
+    route_table      = optional(object({ name = string, resource_group_name = string }))
+    nat_gateway      = optional(object({ name = string, resource_group_name = string }))
   }))
-  description = "A list of Subnet Prefixes to use along with subnet names"
+  description = "A list of subnets to create within the Azure Virtual Network"
   default     = [
     {
-      label                = "main"
-      address_prefixes     = ["10.1.1.0/24"]
-      create_route_table   = true
-      external_route_table = null
-      create_nat_gateway   = true
-      external_nat_gateway = null
+      label            = "main"
+      address_prefixes = ["10.1.1.0/24"]
+      route_table      = null
+      nat_gateway      = null
     }
   ]
 }

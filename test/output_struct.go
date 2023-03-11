@@ -26,7 +26,14 @@ type DefaultNatGateway struct {
 }
 
 type RouteTable struct {
-	Id                string   `json:"id"`
-	Name              string   `json:"name"`
-	ResourceGroupName string   `json:"resource_group_name"`
+	Id                string `json:"id"`
+	Name              string `json:"name"`
+	ResourceGroupName string `json:"resource_group_name"`
+}
+
+type Subnet struct {
+	Id                string `json:"id"`
+	Name              string `json:"name"`
+	ResourceGroupName string `json:"resource_group_name"`
+	VnetName          string `json:"vnet_name"`
 }

@@ -2,19 +2,19 @@
 # REQUIRED MODULE PARAMETERS
 # ---------------------------------------------------------------------------------------------------------------------
 
-variable "location" {
-  type        = string
-  description = "The location of the resources."
-}
-
 variable "prefix" {
   type        = string
-  description = "The prefix used for the name of the resources."
+  description = "The prefix"
+}
+
+variable "location" {
+  type        = string
+  description = "The location"
 }
 
 variable "label" {
   type        = string
-  description = "The label used for the name of the Resource Group eg. $/{prefix/}-$/{label/}-rg"
+  description = "The label"
 }
 
 # ---------------------------------------------------------------------------------------------------------------------

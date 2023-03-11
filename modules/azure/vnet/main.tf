@@ -9,8 +9,8 @@ terraform {
 }
 
 locals {
-  vnet_name                       = "${var.prefix}-${var.label}-vnet"
-  subnet_prefix                   = local.vnet_name
+  vnet_name     = "${var.prefix}-${var.label}-vnet"
+  subnet_prefix = local.vnet_name
 }
 
 resource "azurerm_virtual_network" "vnet" {
@@ -25,13 +25,13 @@ module "subnet" {
   count  = length(var.subnets)
   source = "../vnet_subnet"
 
-  prefix               = local.subnet_prefix
-  label                = var.subnets[count.index].label
-  location             = var.location
-  resource_group_name  = var.resource_group_name
-  vnet_name            = azurerm_virtual_network.vnet.name
-  address_prefixes     = var.subnets[count.index].address_prefixes
-  external_route_table = var.subnets[count.index].external_route_table
-  create_route_table   = var.subnets[count.index].create_route_table
-  tags                 = var.tags
+  prefix              = local.subnet_prefix
+  label               = var.subnets[count.index].label
+  location            = var.location
+  resource_group_name = var.resource_group_name
+  vnet_name           = azurerm_virtual_network.vnet.name
+  address_prefixes    = var.subnets[count.index].address_prefixes
+  route_table         = var.subnets[count.index].route_table
+  nat_gateway         = var.subnets[count.index].nat_gateway
+  tags                = var.tags
 }

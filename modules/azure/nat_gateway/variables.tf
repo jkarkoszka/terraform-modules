@@ -4,12 +4,12 @@
 
 variable "prefix" {
   type        = string
-  description = "The prefix for the resources created in the specified Azure Resource Group"
+  description = "The prefix"
 }
 
 variable "location" {
   type        = string
-  description = "The location of your Resource Group"
+  description = "The location"
 }
 
 variable "resource_group_name" {
@@ -19,7 +19,7 @@ variable "resource_group_name" {
 
 variable "label" {
   type        = string
-  description = "The label of the Azure Nat Gateway"
+  description = "The label"
 }
 
 variable "public_ips" {

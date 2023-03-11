@@ -4,12 +4,12 @@
 
 variable "prefix" {
   type        = string
-  description = "The prefix for the resources created in the specified Azure Resource Group"
+  description = "The prefix"
 }
 
 variable "location" {
   type        = string
-  description = "The location of your Resource Group"
+  description = "The location"
 }
 
 variable "resource_group_name" {
@@ -19,7 +19,7 @@ variable "resource_group_name" {
 
 variable "label" {
   type        = string
-  description = "The label of the subnet of the Azure virtual network"
+  description = "The label"
 }
 
 variable "vnet_name" {
@@ -36,28 +36,16 @@ variable "address_prefixes" {
 # OPTIONAL MODULE PARAMETERS
 # ---------------------------------------------------------------------------------------------------------------------
 
-variable "external_route_table" {
+variable "route_table" {
   type        = object({ name = string, resource_group_name = string })
-  description = "Route table - if passed then it's used instead of creating new"
+  description = "Route table name along with resource group name. If not null then it's used with new subnet."
   default     = null
 }
 
-variable "create_route_table" {
-  type        = bool
-  description = "If the route table should be created"
-  default     = true
-}
-
-variable "external_nat_gateway" {
+variable "nat_gateway" {
   type        = object({ name = string, resource_group_name = string })
-  description = "NAT Gateway - if passed then it's used instead of creating new"
+  description = "NAT Gateway name along with resource group name. If not null then it's used with new subnet."
   default     = null
-}
-
-variable "create_nat_gateway" {
-  type        = bool
-  description = "If the NAT Gateway should be created"
-  default     = true
 }
 
 variable "tags" {
