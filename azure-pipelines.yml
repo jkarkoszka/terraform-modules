@@ -4,6 +4,13 @@ trigger:
 pool:
   vmImage: 'ubuntu-22.04'
 
+schedules:
+  - cron: "0 0 * * *"
+    displayName: Daily midnight build
+    branches:
+      include:
+        - main
+
 stages:
   - stage: Test
     displayName: Test Terraform modules

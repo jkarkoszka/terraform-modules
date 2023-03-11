@@ -36,13 +36,13 @@ func TestDefaultNatGatewayModule(t *testing.T) {
 	var defaultNatGateway DefaultNatGateway
 	terraform.OutputStruct(t, tfOptions, "default_nat_gateway", &defaultNatGateway)
 
-	var publicIp = defaultNatGateway.publicIp
+	var publicIp = defaultNatGateway.PublicIp
 	publicIpExists := azure.PublicAddressExists(t, publicIp.Name, rg.Name, "")
 	assert.True(t, publicIpExists, "Public IP does not exist")
 
 	publicIpApiData, _ := azure.GetPublicIPAddressE(publicIp.Name, rg.Name, "")
 
-	var natGateway = defaultNatGateway.natGateway
+	var natGateway = defaultNatGateway.NatGateway
 	assert.NotEmpty(t, natGateway.Id)
 	assert.Equal(t, natGateway.Name, prefix+"-"+label+"-nat-gateway")
 	assert.Equal(t, natGateway.ResourceGroupName, rg.Name)
