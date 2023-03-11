@@ -24,3 +24,9 @@ type DefaultNatGateway struct {
 	NatGateway NatGateway `json:"nat_gateway"`
 	PublicIp   PublicIp   `json:"public_ip"`
 }
+
+type RouteTable struct {
+	Id                string   `json:"id"`
+	Name              string   `json:"name"`
+	ResourceGroupName string   `json:"resource_group_name"`
+}

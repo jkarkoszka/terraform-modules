@@ -13,6 +13,10 @@ func TestPublicIPModule(t *testing.T) {
 	//given
 	t.Parallel()
 
+	tfDir := "examples/azure/public_ip"
+	prefix := "tftest"
+	label := random.UniqueId()
+
 	expectedAllocationMethod := network.IPAllocationMethod("Static")
 	expectedSkuName := network.PublicIPAddressSkuName("Standard")
 	expectedIdleTimeoutInMinutes := toPtr(int32(4))
@@ -21,9 +25,6 @@ func TestPublicIPModule(t *testing.T) {
 		"tfTest": toPtr("true"),
 	}
 
-	tfDir := "examples/azure/public_ip"
-	prefix := "tftest"
-	label := random.UniqueId()
 	tfVars := map[string]interface{}{
 		"prefix": prefix,
 		"label":  label,
@@ -63,6 +64,10 @@ func TestPublicIPModuleWithSkuBasic(t *testing.T) {
 	//given
 	t.Parallel()
 
+	tfDir := "examples/azure/public_ip"
+	prefix := "tftest"
+	label := random.UniqueId()
+
 	expectedAllocationMethod := network.IPAllocationMethod("Static")
 	expectedSkuName := network.PublicIPAddressSkuName("Basic")
 	expectedIdleTimeoutInMinutes := toPtr(int32(4))
@@ -71,13 +76,10 @@ func TestPublicIPModuleWithSkuBasic(t *testing.T) {
 		"tfTest": toPtr("true"),
 	}
 
-	tfDir := "examples/azure/public_ip"
-	prefix := "tftest"
-	label := random.UniqueId()
 	tfVars := map[string]interface{}{
 		"prefix": prefix,
-		"label": label,
-		"sku":   expectedSkuName,
+		"label":  label,
+		"sku":    expectedSkuName,
 	}
 	tfOptions := prepareTerraformOptions(t, tfDir, tfVars)
 	defer terraform.Destroy(t, tfOptions)
@@ -114,6 +116,11 @@ func TestPublicIPModuleWithZones(t *testing.T) {
 	//given
 	t.Parallel()
 
+	tfDir := "examples/azure/public_ip"
+
+	prefix := "tftest"
+	label := random.UniqueId()
+
 	expectedAllocationMethod := network.IPAllocationMethod("Static")
 	expectedSkuName := network.PublicIPAddressSkuName("Standard")
 	expectedIdleTimeoutInMinutes := toPtr(int32(4))
@@ -122,13 +129,10 @@ func TestPublicIPModuleWithZones(t *testing.T) {
 		"tfTest": toPtr("true"),
 	}
 
-	tfDir := "examples/azure/public_ip"
-	prefix := "tftest"
-	label := random.UniqueId()
 	tfVars := map[string]interface{}{
 		"prefix": prefix,
-		"label": label,
-		"zones": expectedZones,
+		"label":  label,
+		"zones":  expectedZones,
 	}
 	tfOptions := prepareTerraformOptions(t, tfDir, tfVars)
 	defer terraform.Destroy(t, tfOptions)

@@ -12,11 +12,14 @@ func TestDefaultNatGatewayModule(t *testing.T) {
 	//given
 	t.Parallel()
 
-	expectedNumberOfPublicIps := 1
-
 	tfDir := "examples/azure/default_nat_gateway"
+
 	prefix := "tftest"
 	label := random.UniqueId()
+
+	expectedNatGatewayName := prefix + "-" + label + "-nat-gateway"
+	expectedNumberOfPublicIps := 1
+
 	tfVars := map[string]interface{}{
 		"prefix": prefix,
 		"label":  label,
@@ -44,8 +47,8 @@ func TestDefaultNatGatewayModule(t *testing.T) {
 
 	var natGateway = defaultNatGateway.NatGateway
 	assert.NotEmpty(t, natGateway.Id)
-	assert.Equal(t, natGateway.Name, prefix+"-"+label+"-nat-gateway")
-	assert.Equal(t, natGateway.ResourceGroupName, rg.Name)
+	assert.Equal(t, expectedNatGatewayName, natGateway.Name)
+	assert.Equal(t, rg.Name, natGateway.ResourceGroupName)
 	assert.Len(t, natGateway.PublicIpAddresses, expectedNumberOfPublicIps)
 	assert.Len(t, natGateway.PublicIpIds, expectedNumberOfPublicIps)
 	assert.Contains(t, natGateway.PublicIpAddresses, *publicIpApiData.IPAddress)

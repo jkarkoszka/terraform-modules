@@ -1,5 +1,5 @@
-1. default_nat_gateway - public_ip + nat_gateway
-2. route_table - basic module
+1. default_nat_gateway - public_ip + nat_gateway - DONE
+2. route_table - basic module - DONE
 3. vnet/subnet
 4. default vnet = subnet definition + default_nat_gatway + route_table
 5. k8s

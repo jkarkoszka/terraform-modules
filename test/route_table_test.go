@@ -8,18 +8,16 @@ import (
 	"testing"
 )
 
-func TestRgModule(t *testing.T) {
+func TestRouteTableModule(t *testing.T) {
 	//given
 	t.Parallel()
 
-	tfDir := "examples/azure/rg"
+	tfDir := "examples/azure/route_table"
 
 	prefix := "tftest"
 	label := random.UniqueId()
 
-	expectedTags := map[string]*string{
-		"tfTest": toPtr("true"),
-	}
+	expectedRouteTableName := prefix + "-" + label + "-rt"
 
 	tfVars := map[string]interface{}{
 		"prefix": prefix,
@@ -34,13 +32,14 @@ func TestRgModule(t *testing.T) {
 	//then
 	var rg ResourceGroup
 	terraform.OutputStruct(t, tfOptions, "rg", &rg)
-
-	assert.Equal(t, rg.Name, prefix+"-"+label+"-rg")
-	assert.NotEmpty(t, rg.Id)
-
 	resourceGroupExists := azure.ResourceGroupExists(t, rg.Name, "")
 	assert.True(t, resourceGroupExists, "Resource group does not exist")
 
-	resourceGroupApiData := azure.GetAResourceGroup(t, rg.Name, "")
-	assert.Equal(t, expectedTags, resourceGroupApiData.Tags)
+	var routeTable RouteTable
+	terraform.OutputStruct(t, tfOptions, "route_table", &routeTable)
+	assert.NotEmpty(t, routeTable.Id)
+	assert.Equal(t, routeTable.Name, expectedRouteTableName)
+	assert.Equal(t, routeTable.ResourceGroupName, rg.Name)
+
+	//todo: when it's avaiable in API check if Route table is created and properly configured.
 }
