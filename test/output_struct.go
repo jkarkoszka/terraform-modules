@@ -22,7 +22,7 @@ type NatGateway struct {
 
 type DefaultNatGateway struct {
 	NatGateway NatGateway `json:"nat_gateway"`
-	PublicIp   PublicIp   `json:"public_ip"`
+	PublicIps  []PublicIp `json:"public_ips"`
 }
 
 type RouteTable struct {

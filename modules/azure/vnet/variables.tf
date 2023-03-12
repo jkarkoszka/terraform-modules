@@ -47,6 +47,7 @@ variable "subnets" {
       address_prefixes = ["10.1.1.0/24"]
       route_table      = null
       nat_gateway      = null
+      nsg              = null
     }
   ]
 }

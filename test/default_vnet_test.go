@@ -57,7 +57,9 @@ func TestDefaultVnetModule(t *testing.T) {
 
 	var defaultNatGateway = defaultVnet.DefaultNatGateway
 
-	var publicIp = defaultNatGateway.PublicIp
+	var publicIps = defaultNatGateway.PublicIps
+	assert.Len(t, publicIps, 1)
+	var publicIp = publicIps[0]
 	publicIpExists := azure.PublicAddressExists(t, publicIp.Name, rg.Name, "")
 	assert.True(t, publicIpExists, "Public IP does not exist")
 

@@ -1,6 +1,6 @@
-output "public_ip" {
+output "public_ips" {
   value       = module.public_ip
-  description = "Whole output from 'public_ip' module."
+  description = "List of whole outputs from 'public_ip' module."
 }
 
 output "nat_gateway" {

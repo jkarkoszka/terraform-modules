@@ -13,7 +13,7 @@ resource "azurerm_nat_gateway" "nat_gateway" {
   location            = var.location
   resource_group_name = var.resource_group_name
   sku_name            = var.nat_sku_name
-  zones               = var.zones
+  zones               = var.zone != null ? [var.zone] : []
   tags                = var.tags
 }
 
@@ -29,13 +29,3 @@ resource "azurerm_nat_gateway_public_ip_association" "nat_gateway_public_ip_asso
   public_ip_address_id = data.azurerm_public_ip.public_ip[count.index].id
 }
 
-#module "nat_gateway_public_ip" {
-#  count  = var.create_public_ips_count
-#  source = "../public_ip"
-#
-#  prefix              = var.prefix
-#  name                = "${var.name}-${count.index}-nat-gateway"
-#  location            = var.location
-#  resource_group_name = var.resource_group_name
-#}
-#

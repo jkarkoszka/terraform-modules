@@ -32,10 +32,16 @@ variable "nat_sku_name" {
   default     = "Standard"
 }
 
-variable "zones" {
-  type        = list(string)
-  description = "(Optional) Specifies a list of Availability Zones in which this NAT Gateway should be located. Changing this forces a new NAT Gateway to be created."
-  default     = []
+variable "zone" {
+  type        = string
+  description = "(Optional) Specifies Availability Zones in which this NAT Gateway should be located. Default to null - no zone. Changing this forces a new NAT Gateway to be created."
+  default     = null
+}
+
+variable "number_of_ip_addresses" {
+  type        = number
+  description = "(Optional) Number of IP addresses for NAT Gateway. Defaults to 1."
+  default     = "1"
 }
 
 variable "tags" {

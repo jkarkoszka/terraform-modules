@@ -188,7 +188,9 @@ func TestVnetModuleWithRouteTableAndNatGatewayAndNsg(t *testing.T) {
 	var defaultNatGateway DefaultNatGateway
 	terraform.OutputStruct(t, tfOptions, "default_nat_gateway", &defaultNatGateway)
 
-	var publicIp = defaultNatGateway.PublicIp
+	var publicIps = defaultNatGateway.PublicIps
+	assert.Len(t, publicIps, 1)
+	var publicIp = publicIps[0]
 	publicIpExists := azure.PublicAddressExists(t, publicIp.Name, rg.Name, "")
 	assert.True(t, publicIpExists, "Public IP does not exist")
 

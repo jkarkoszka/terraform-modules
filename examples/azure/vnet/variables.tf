@@ -32,6 +32,7 @@ variable "subnets" {
     address_prefixes = list(string)
     route_table      = optional(object({ name = string, resource_group_name = string }))
     nat_gateway      = optional(object({ name = string, resource_group_name = string }))
+    nsg              = optional(object({ name = string, resource_group_name = string }))
   }))
   description = "A list of subnets to create within the Azure Virtual Network"
   default     = [
@@ -40,6 +41,7 @@ variable "subnets" {
       address_prefixes = ["10.1.1.0/24"]
       route_table      = null
       nat_gateway      = null
+      nsg              = null
     }
   ]
 }
