@@ -24,7 +24,7 @@ module "default_nat_gateway" {
   label               = var.label
   nat_sku_name        = var.nat_sku_name
   public_ip_sku_name  = var.public_ip_sku_name
-  zones               = var.zones
+  zone                = var.zone
   tags                = var.tags
 }
 
