@@ -71,5 +71,7 @@ variable "zones" {
 variable "tags" {
   type        = map(string)
   description = "Any tags that should be present on the resources"
-  default     = {}
+  default     = {
+    tfTest = true
+  }
 }
