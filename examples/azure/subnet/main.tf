@@ -39,6 +39,17 @@ module "route_table" {
   tags                = var.tags
 }
 
+module "nsg" {
+  count  = var.create_nsg ? 1 : 0
+  source = "../../../modules/azure/nsg"
+
+  location            = var.location
+  resource_group_name = module.rg.name
+  prefix              = var.prefix
+  label               = var.label
+  tags                = var.tags
+}
+
 module "subnet" {
   source = "../../../modules/azure/subnet"
 
@@ -56,6 +67,10 @@ module "subnet" {
     resource_group_name = module.default_nat_gateway[0].nat_gateway.resource_group_name
     name                = module.default_nat_gateway[0].nat_gateway.name
   } : null
+  nsg = var.create_nsg ? {
+    resource_group_name = module.nsg[0].resource_group_name
+    name                = module.nsg[0].name
+  } : null
   tags       = var.tags
-  depends_on = [module.route_table, module.default_nat_gateway]
+  depends_on = [module.route_table, module.default_nat_gateway, module.nsg]
 }

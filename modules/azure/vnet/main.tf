@@ -33,5 +33,6 @@ module "subnet" {
   address_prefixes    = var.subnets[count.index].address_prefixes
   route_table         = var.subnets[count.index].route_table
   nat_gateway         = var.subnets[count.index].nat_gateway
+  nsg                 = var.subnets[count.index].nsg
   tags                = var.tags
 }

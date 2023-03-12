@@ -90,15 +90,17 @@ func TestVnetModule(t *testing.T) {
 	assert.Equal(t, expectedFirstSubnetAddressPrefix, *firstVnetSubnetApiData.AddressPrefix)
 	assert.Empty(t, firstVnetSubnetApiData.RouteTable)
 	assert.Empty(t, firstVnetSubnetApiData.NatGateway)
+	assert.Empty(t, firstVnetSubnetApiData.NetworkSecurityGroup)
 	secondVnetSubnetApiData := findSubnetById(vnetApiData.Subnets, secondSubnet.Id)
 	assert.Equal(t, secondSubnet.Id, *secondVnetSubnetApiData.ID)
 	assert.Equal(t, secondSubnet.Name, *secondVnetSubnetApiData.Name)
 	assert.Equal(t, expectedSecondSubnetAddressPrefix, *secondVnetSubnetApiData.AddressPrefix)
 	assert.Empty(t, secondVnetSubnetApiData.RouteTable)
 	assert.Empty(t, secondVnetSubnetApiData.NatGateway)
+	assert.Empty(t, secondVnetSubnetApiData.NetworkSecurityGroup)
 }
 
-func TestVnetModuleWithRouteTableAndNatGateway(t *testing.T) {
+func TestVnetModuleWithRouteTableAndNatGatewayAndNsg(t *testing.T) {
 	//given
 	t.Parallel()
 
@@ -111,6 +113,7 @@ func TestVnetModuleWithRouteTableAndNatGateway(t *testing.T) {
 	expectedResourceGroupName := prefix + "-" + vnetLabel + "-rg"
 	expectedRouteTableName := prefix + "-" + vnetLabel + "-rt"
 	expectedNatGatewayName := prefix + "-" + vnetLabel + "-nat-gateway"
+	expectedNsgName := prefix + "-" + vnetLabel + "-nsg"
 	expectedNumberOfPublicIps := 1
 	expectedVnetName := prefix + "-" + vnetLabel + "-vnet"
 	expectedVnetAddressSpace := []string{"10.1.0.0/16"}
@@ -138,6 +141,10 @@ func TestVnetModuleWithRouteTableAndNatGateway(t *testing.T) {
 					"resource_group_name": expectedResourceGroupName,
 					"name":                expectedNatGatewayName,
 				},
+				"nsg": map[string]interface{}{
+					"resource_group_name": expectedResourceGroupName,
+					"name":                expectedNsgName,
+				},
 			},
 			map[string]interface{}{
 				"label":            secondSubnetLabel,
@@ -150,10 +157,15 @@ func TestVnetModuleWithRouteTableAndNatGateway(t *testing.T) {
 					"resource_group_name": expectedResourceGroupName,
 					"name":                expectedNatGatewayName,
 				},
+				"nsg": map[string]interface{}{
+					"resource_group_name": expectedResourceGroupName,
+					"name":                expectedNsgName,
+				},
 			},
 		},
 		"create_nat_gateway": true,
 		"create_route_table": true,
+		"create_nsg":         true,
 	}
 	tfOptions := prepareTerraformOptions(t, tfDir, tfVars)
 	defer terraform.Destroy(t, tfOptions)
@@ -186,6 +198,12 @@ func TestVnetModuleWithRouteTableAndNatGateway(t *testing.T) {
 	assert.Equal(t, rg.Name, natGateway.ResourceGroupName)
 	assert.Len(t, natGateway.PublicIpAddresses, expectedNumberOfPublicIps)
 	assert.Len(t, natGateway.PublicIpIds, expectedNumberOfPublicIps)
+
+	var nsg Nsg
+	terraform.OutputStruct(t, tfOptions, "nsg", &nsg)
+	assert.NotEmpty(t, nsg.Id)
+	assert.Equal(t, expectedNsgName, nsg.Name)
+	assert.Equal(t, rg.Name, nsg.ResourceGroupName)
 
 	var vnet Vnet
 	terraform.OutputStruct(t, tfOptions, "vnet", &vnet)
@@ -220,12 +238,14 @@ func TestVnetModuleWithRouteTableAndNatGateway(t *testing.T) {
 	assert.Equal(t, expectedFirstSubnetAddressPrefix, *firstVnetSubnetApiData.AddressPrefix)
 	assert.NotEmpty(t, *firstVnetSubnetApiData.RouteTable.ID)
 	assert.NotEmpty(t, *firstVnetSubnetApiData.NatGateway.ID)
+	assert.NotEmpty(t, *firstVnetSubnetApiData.NetworkSecurityGroup.ID)
 	secondVnetSubnetApiData := findSubnetById(vnetApiData.Subnets, secondSubnet.Id)
 	assert.Equal(t, secondSubnet.Id, *secondVnetSubnetApiData.ID)
 	assert.Equal(t, secondSubnet.Name, *secondVnetSubnetApiData.Name)
 	assert.Equal(t, expectedSecondSubnetAddressPrefix, *secondVnetSubnetApiData.AddressPrefix)
 	assert.NotEmpty(t, *secondVnetSubnetApiData.RouteTable.ID)
 	assert.NotEmpty(t, *secondVnetSubnetApiData.NatGateway.ID)
+	assert.NotEmpty(t, *secondVnetSubnetApiData.NetworkSecurityGroup.ID)
 }
 func findSubnetById(subnets *[]network.Subnet, id string) *network.Subnet {
 	for _, subnet := range *subnets {

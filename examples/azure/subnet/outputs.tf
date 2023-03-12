@@ -17,3 +17,8 @@ output "default_nat_gateway" {
   value       = var.create_nat_gateway ? module.default_nat_gateway : null
   description = "Whole output from 'default_nat_gateway' module."
 }
+
+output "nsg" {
+  value       = var.create_nsg ? module.nsg : null
+  description = "Whole output from 'nsg' module."
+}

@@ -31,6 +31,17 @@ module "route_table" {
   tags                = var.tags
 }
 
+module "nsg" {
+  count  = var.create_nsg ? 1 : 0
+  source = "../../../modules/azure/nsg"
+
+  location            = var.location
+  resource_group_name = module.rg.name
+  prefix              = var.prefix
+  label               = var.label
+  tags                = var.tags
+}
+
 module "vnet" {
   source = "../../../modules/azure/vnet"
 
@@ -41,5 +52,5 @@ module "vnet" {
   vnet_address_space  = var.vnet_address_space
   subnets             = var.subnets
   tags                = var.tags
-  depends_on          = [module.route_table, module.default_nat_gateway]
+  depends_on          = [module.route_table, module.default_nat_gateway, module.nsg]
 }

@@ -56,6 +56,12 @@ variable "create_nat_gateway" {
   default     = false
 }
 
+variable "create_nsg" {
+  type        = bool
+  description = "If Network Security Group should be created and attached to subnet."
+  default     = false
+}
+
 variable "public_ip_sku_name" {
   type        = string
   description = "(Optional) The SKU of the Public IP. Accepted values are Basic and Standard. Defaults to Standard. Only used when NAT Gateway is created. Changing this forces a new resource to be created."

@@ -1,24 +1,30 @@
 # ---------------------------------------------------------------------------------------------------------------------
-# OPTIONAL MODULE PARAMETERS
+# REQUIRED MODULE PARAMETERS
 # ---------------------------------------------------------------------------------------------------------------------
-
-variable "location" {
-  type        = string
-  description = "The location"
-  default     = "westeurope"
-}
 
 variable "prefix" {
   type        = string
   description = "The prefix"
-  default     = "tftest"
+}
+
+variable "location" {
+  type        = string
+  description = "The location"
+}
+
+variable "resource_group_name" {
+  type        = string
+  description = "The name of your Resource Group"
 }
 
 variable "label" {
   type        = string
-  description = "The vnet label"
-  default     = "abcdfg"
+  description = "The label"
 }
+
+# ---------------------------------------------------------------------------------------------------------------------
+# OPTIONAL MODULE PARAMETERS
+# ---------------------------------------------------------------------------------------------------------------------
 
 variable "vnet_address_space" {
   type        = list(string)
@@ -32,22 +38,10 @@ variable "subnet_address_prefixes" {
   default     = ["10.1.1.0/24"]
 }
 
-variable "create_route_table" {
-  type        = bool
-  description = "If Route Table should be created and attached to subnet."
-  default     = false
-}
-
-variable "create_nat_gateway" {
-  type        = bool
-  description = "If NAT Gateway should be created and attached to subnet."
-  default     = false
-}
-
-variable "create_nsg" {
-  type        = bool
-  description = "If Network Security Group should be created and attached to subnet."
-  default     = false
+variable "subnet_label" {
+  type        = string
+  description = "(Optional) Label used for the subnet name. Defaults to 'main'."
+  default     = "main"
 }
 
 variable "public_ip_sku_name" {
@@ -67,6 +61,7 @@ variable "zones" {
   description = "(Optional) Specifies a list of Availability Zones in which this NAT Gateway and/or Route Table should be located. Only used when NAT Gateway or Route table is created. Changing this forces a new NAT Gateway and/or Route Table to be created."
   default     = []
 }
+
 
 variable "tags" {
   type        = map(string)

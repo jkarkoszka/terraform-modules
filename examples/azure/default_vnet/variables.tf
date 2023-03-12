@@ -32,22 +32,10 @@ variable "subnet_address_prefixes" {
   default     = ["10.1.1.0/24"]
 }
 
-variable "create_route_table" {
-  type        = bool
-  description = "If Route Table should be created and attached to subnet."
-  default     = false
-}
-
-variable "create_nat_gateway" {
-  type        = bool
-  description = "If NAT Gateway should be created and attached to subnet."
-  default     = false
-}
-
-variable "create_nsg" {
-  type        = bool
-  description = "If Network Security Group should be created and attached to subnet."
-  default     = false
+variable "subnet_label" {
+  type        = string
+  description = "(Optional) Label used for the subnet name. Defaults to 'main'."
+  default     = "main"
 }
 
 variable "public_ip_sku_name" {

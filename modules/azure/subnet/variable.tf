@@ -48,6 +48,12 @@ variable "nat_gateway" {
   default     = null
 }
 
+variable "nsg" {
+  type        = object({ name = string, resource_group_name = string })
+  description = "Network Security Group name along with resource group name. If not null then it's used with new subnet."
+  default     = null
+}
+
 variable "tags" {
   type        = map(string)
   description = "Any tags that should be present on the resources"

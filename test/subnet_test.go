@@ -54,9 +54,10 @@ func TestSubnetModule(t *testing.T) {
 	assert.Equal(t, expectedSubnetAddressPrefix, *subnetApiData.AddressPrefix)
 	assert.Empty(t, subnetApiData.RouteTable)
 	assert.Empty(t, subnetApiData.NatGateway)
+	assert.Empty(t, subnetApiData.NetworkSecurityGroup)
 }
 
-func TestSubnetModuleWithRouteTableAndNatGateway(t *testing.T) {
+func TestSubnetModuleWithRouteTableAndNatGatewayAndNsg(t *testing.T) {
 	//given
 	t.Parallel()
 
@@ -76,6 +77,7 @@ func TestSubnetModuleWithRouteTableAndNatGateway(t *testing.T) {
 		"subnet_address_prefixes": expectedAddressPrefixes,
 		"create_nat_gateway":      true,
 		"create_route_table":      true,
+		"create_nsg":              true,
 	}
 	tfOptions := prepareTerraformOptions(t, tfDir, tfVars)
 	defer terraform.Destroy(t, tfOptions)
@@ -104,4 +106,5 @@ func TestSubnetModuleWithRouteTableAndNatGateway(t *testing.T) {
 	assert.Equal(t, expectedSubnetAddressPrefix, *subnetApiData.AddressPrefix)
 	assert.NotEmpty(t, *subnetApiData.RouteTable.ID)
 	assert.NotEmpty(t, *subnetApiData.NatGateway.ID)
+	assert.NotEmpty(t, *subnetApiData.NetworkSecurityGroup.ID)
 }

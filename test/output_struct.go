@@ -31,6 +31,16 @@ type RouteTable struct {
 	ResourceGroupName string `json:"resource_group_name"`
 }
 
+type Nsg struct {
+	Id                string `json:"id"`
+	Name              string `json:"name"`
+	ResourceGroupName string `json:"resource_group_name"`
+}
+
+type DefaultNsg struct {
+	Nsg Nsg `json:"nsg"`
+}
+
 type Subnet struct {
 	Id                string   `json:"id"`
 	Name              string   `json:"name"`
@@ -45,4 +55,11 @@ type Vnet struct {
 	ResourceGroupName string   `json:"resource_group_name"`
 	AddressSpace      []string `json:"address_space"`
 	Subnets           []Subnet `json:"subnets"`
+}
+
+type DefaultVnet struct {
+	Vnet              Vnet              `json:"vnet"`
+	RouteTable        RouteTable        `json:"route_table"`
+	DefaultNatGateway DefaultNatGateway `json:"default_nat_gateway"`
+	Nsg               Nsg               `json:"nsg"`
 }

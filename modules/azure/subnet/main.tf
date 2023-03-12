@@ -38,3 +38,15 @@ resource "azurerm_subnet_nat_gateway_association" "subnet_to_nat_gateway" {
   subnet_id      = azurerm_subnet.subnet.id
   nat_gateway_id = data.azurerm_nat_gateway.nat_gateway[count.index].id
 }
+
+data "azurerm_network_security_group" "nsg" {
+  count               = var.nsg != null ? 1 : 0
+  name                = var.nsg.name
+  resource_group_name = var.nsg.resource_group_name
+}
+
+resource "azurerm_subnet_network_security_group_association" "subnet_to_nsg" {
+  count                     = var.nsg != null ? 1 : 0
+  subnet_id                 = azurerm_subnet.subnet.id
+  network_security_group_id = data.azurerm_network_security_group.nsg[count.index].id
+}
