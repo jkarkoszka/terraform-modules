@@ -8,17 +8,19 @@ import (
 	"testing"
 )
 
-func TestDefaultVnetModule(t *testing.T) {
+func TestDefaultVnetWithNatGatewayModule(t *testing.T) {
 	//given
 	t.Parallel()
 
-	tfDir := "examples/azure/default_vnet"
+	tfDir := "examples/azure/default_vnet_with_nat_gateway"
 
 	prefix := "tftest"
 	label := random.UniqueId()
 	subnetLabel := random.UniqueId()
 	expectedRouteTableName := prefix + "-" + label + "-rt"
+	expectedNatGatewayName := prefix + "-" + label + "-nat-gateway"
 	expectedNsgName := prefix + "-" + label + "-nsg"
+	expectedNumberOfPublicIps := 1
 	expectedVnetName := prefix + "-" + label + "-vnet"
 	expectedVnetAddressSpace := []string{"10.1.0.0/16"}
 	expectedSubnetName := expectedVnetName + "-" + subnetLabel + "-subnet"
@@ -45,20 +47,35 @@ func TestDefaultVnetModule(t *testing.T) {
 	resourceGroupExists := azure.ResourceGroupExists(t, rg.Name, "")
 	assert.True(t, resourceGroupExists, "Resource group does not exist")
 
-	var defaultVnet DefaultVnet
-	terraform.OutputStruct(t, tfOptions, "default_vnet", &defaultVnet)
+	var defaultVnetWithNatGateway DefaultVnetWithNatGateway
+	terraform.OutputStruct(t, tfOptions, "default_vnet_with_nat_gateway", &defaultVnetWithNatGateway)
 
-	var routeTable = defaultVnet.RouteTable
+	var routeTable = defaultVnetWithNatGateway.RouteTable
 	assert.NotEmpty(t, routeTable.Id)
 	assert.Equal(t, routeTable.Name, expectedRouteTableName)
 	assert.Equal(t, routeTable.ResourceGroupName, rg.Name)
 
-	var nsg = defaultVnet.Nsg
+	var defaultNatGateway = defaultVnetWithNatGateway.DefaultNatGateway
+
+	var publicIps = defaultNatGateway.PublicIps
+	assert.Len(t, publicIps, 1)
+	var publicIp = publicIps[0]
+	publicIpExists := azure.PublicAddressExists(t, publicIp.Name, rg.Name, "")
+	assert.True(t, publicIpExists, "Public IP does not exist")
+
+	var natGateway = defaultNatGateway.NatGateway
+	assert.NotEmpty(t, natGateway.Id)
+	assert.Equal(t, expectedNatGatewayName, natGateway.Name)
+	assert.Equal(t, rg.Name, natGateway.ResourceGroupName)
+	assert.Len(t, natGateway.PublicIpAddresses, expectedNumberOfPublicIps)
+	assert.Len(t, natGateway.PublicIpIds, expectedNumberOfPublicIps)
+
+	var nsg = defaultVnetWithNatGateway.Nsg
 	assert.NotEmpty(t, nsg.Id)
 	assert.Equal(t, expectedNsgName, nsg.Name)
 	assert.Equal(t, rg.Name, nsg.ResourceGroupName)
 
-	var vnet = defaultVnet.Vnet
+	var vnet = defaultVnetWithNatGateway.Vnet
 	assert.NotEmpty(t, vnet.Id)
 	assert.Equal(t, expectedVnetName, vnet.Name)
 	assert.Equal(t, rg.Name, vnet.ResourceGroupName)
@@ -71,7 +88,7 @@ func TestDefaultVnetModule(t *testing.T) {
 	assert.Equal(t, expectedSubnetAddressPrefixes, subnetFromVnet.AddressPrefixes)
 	assert.Equal(t, expectedVnetName, subnetFromVnet.VnetName)
 
-	var subnetAliasFromDefaultVnet = defaultVnet.Subnet
+	var subnetAliasFromDefaultVnet = defaultVnetWithNatGateway.Subnet
 	assert.NotEmpty(t, subnetAliasFromDefaultVnet.Id)
 	assert.Equal(t, expectedSubnetName, subnetAliasFromDefaultVnet.Name)
 	assert.Equal(t, rg.Name, subnetAliasFromDefaultVnet.ResourceGroupName)
@@ -90,6 +107,6 @@ func TestDefaultVnetModule(t *testing.T) {
 	assert.Equal(t, subnetFromVnet.Name, *firstVnetSubnetApiData.Name)
 	assert.Equal(t, expectedSubnetAddressPrefix, *firstVnetSubnetApiData.AddressPrefix)
 	assert.NotEmpty(t, *firstVnetSubnetApiData.RouteTable.ID)
-	assert.Empty(t, firstVnetSubnetApiData.NatGateway)
+	assert.NotEmpty(t, *firstVnetSubnetApiData.NatGateway.ID)
 	assert.NotEmpty(t, *firstVnetSubnetApiData.NetworkSecurityGroup.ID)
 }

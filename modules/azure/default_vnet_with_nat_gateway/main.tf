@@ -8,6 +8,17 @@ terraform {
   }
 }
 
+module "default_nat_gateway" {
+  source = "../../../modules/azure/default_nat_gateway"
+
+  location            = var.location
+  resource_group_name = var.resource_group_name
+  prefix              = var.prefix
+  label               = var.label
+  zone                = var.zone
+  tags                = var.tags
+}
+
 module "route_table" {
   source = "../../../modules/azure/route_table"
 
@@ -44,6 +55,10 @@ module "vnet" {
         resource_group_name = var.resource_group_name
         name                = module.route_table.name
       }
+      nat_gateway = {
+        resource_group_name = var.resource_group_name
+        name                = module.default_nat_gateway.nat_gateway.name
+      }
       nsg = {
         resource_group_name = var.resource_group_name
         name                = module.nsg.name
@@ -51,5 +66,5 @@ module "vnet" {
     }
   ]
   tags       = var.tags
-  depends_on = [module.route_table, module.nsg]
+  depends_on = [module.route_table, module.default_nat_gateway, module.nsg]
 }

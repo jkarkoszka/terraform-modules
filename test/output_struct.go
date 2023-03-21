@@ -58,8 +58,38 @@ type Vnet struct {
 }
 
 type DefaultVnet struct {
+	Vnet       Vnet       `json:"vnet"`
+	Subnet     Subnet     `json:"subnet"`
+	RouteTable RouteTable `json:"route_table"`
+	Nsg        Nsg        `json:"nsg"`
+}
+
+type DefaultVnetWithNatGateway struct {
 	Vnet              Vnet              `json:"vnet"`
+	Subnet            Subnet            `json:"subnet"`
 	RouteTable        RouteTable        `json:"route_table"`
 	DefaultNatGateway DefaultNatGateway `json:"default_nat_gateway"`
 	Nsg               Nsg               `json:"nsg"`
+}
+
+type Sp struct {
+	Name         string `json:"name"`
+	ObjectId     string `json:"object_id"`
+	ClientId     string `json:"client_id"`
+	ClientSecret string `json:"client_secret"`
+}
+
+type Aks struct {
+	Name                 string `json:"name"`
+	Host                 string `json:"host"`
+	ClientCertificate    string `json:"client_certificate"`
+	ClientKey            string `json:"client_key"`
+	ClusterCACertificate string `json:"cluster_ca_certificate"`
+	KubeConfig           string `json:"kubeconfig"`
+}
+
+type DefaultAks struct {
+	DefaultVnet DefaultVnet `json:"default_vnet"`
+	SpForAks    Sp          `json:"sp_for_aks"`
+	Aks         Aks         `json:"aks"`
 }
