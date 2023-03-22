@@ -20,3 +20,4 @@
 14. default_aks_with_nat_gateway
 15. default_ha_vnet (3 subnet + 3 nat gateway in 3 AZ)
 16. default_ha_aks (default_ha_vnet and 3 node pools in 3 AZs)
+17. add READMEs to all tf modules

@@ -67,7 +67,7 @@ func TestAksModule(t *testing.T) {
 	assert.True(t, resourceGroupExists, "Resource group does not exist")
 
 	var sp Sp
-	terraform.OutputStruct(t, tfOptions, "sp", &sp)
+	terraform.OutputStruct(t, tfOptions, "sp_for_aks", &sp)
 	assert.Equal(t, sp.Name, expectedSpName)
 	assert.NotEmpty(t, sp.ObjectId)
 	assert.NotEmpty(t, sp.ClientId)

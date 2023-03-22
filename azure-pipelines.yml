@@ -5,8 +5,8 @@ pool:
   vmImage: 'ubuntu-22.04'
 
 schedules:
-  - cron: "0 0 * * *"
-    displayName: Daily midnight build
+  - cron: "0 0 * * 6"
+    displayName: Weekly midnight build
     branches:
       include:
         - main
