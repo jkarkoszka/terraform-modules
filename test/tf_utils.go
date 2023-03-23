@@ -4,6 +4,7 @@ import (
 	"github.com/gruntwork-io/terratest/modules/terraform"
 	test_structure "github.com/gruntwork-io/terratest/modules/test-structure"
 	"log"
+	"os"
 	"testing"
 )
 
@@ -19,6 +20,10 @@ func prepareTerraformOptions(t *testing.T, tfDir string, tfVars map[string]inter
 	}
 
 	return tfOptions
+}
+
+func SaveContentToFile(content []byte, filePath string) {
+	os.WriteFile(filePath, content, 0644)
 }
 
 func toPtr[T any](v T) *T {

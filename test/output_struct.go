@@ -88,6 +88,15 @@ type Aks struct {
 	KubeConfig           string `json:"kubeconfig"`
 }
 
+type KindCluster struct {
+	Name                 string `json:"name"`
+	Host                 string `json:"host"`
+	ClientCertificate    string `json:"client_certificate"`
+	ClientKey            string `json:"client_key"`
+	ClusterCACertificate string `json:"cluster_ca_certificate"`
+	KubeConfig           string `json:"kubeconfig"`
+}
+
 type DefaultAks struct {
 	DefaultVnet DefaultVnet `json:"default_vnet"`
 	SpForAks    Sp          `json:"sp_for_aks"`

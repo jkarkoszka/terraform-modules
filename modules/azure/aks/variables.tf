@@ -4,22 +4,22 @@
 
 variable "prefix" {
   type        = string
-  description = "The prefix"
+  description = "The prefix."
 }
 
 variable "location" {
   type        = string
-  description = "The location"
+  description = "The location."
 }
 
 variable "resource_group_name" {
   type        = string
-  description = "The name of your Resource Group"
+  description = "The name of your Resource Group."
 }
 
 variable "label" {
   type        = string
-  description = "The label"
+  description = "The label."
 }
 
 variable "default_node_pool" {
@@ -36,7 +36,7 @@ variable "default_node_pool" {
     orchestrator_version = optional(string)
     max_surge_on_upgrade = optional(string)
   })
-  description = "The properties of the default node pool"
+  description = "The properties of the default node pool."
 }
 
 variable service_principal {
@@ -44,6 +44,7 @@ variable service_principal {
     client_id     = string
     client_secret = string
   })
+  description = "The service principal for the cluster."
 }
 
 # ---------------------------------------------------------------------------------------------------------------------
