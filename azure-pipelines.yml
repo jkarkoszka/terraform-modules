@@ -29,5 +29,5 @@ stages:
                 --build-arg ARM_TENANT_ID=$(ARM_TENANT_ID) \
                 -t terraform_test \
                 .
-              docker run -v /var/run/docker.sock:/var/run/docker.sock terraform_test
+              docker run --network host -v /var/run/docker.sock:/var/run/docker.sock terraform_test
             displayName: Run Terraform modules tests
