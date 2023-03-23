@@ -2,10 +2,12 @@
 
 ## Overview
 
-The purpose of the repository is to create set of ready to use Terraform modules. Basically, there are two types of modules:
+The purpose of the repository is to create set of ready to use Terraform modules. 
+
+Basically, there are two types of modules:
 
 - **Low level modules** - these modules create small number of resources and provides a lot of possible configuration via variables
-- **Higher level modules** - these modules are usually some kind of aggregation of low level modules and standalone terraform resources.
+- **Higher level modules** - these modules are usually an aggregation of low level modules and standalone terraform resources.
 
 ### Modules
 In the repository, there are modules to create Azure Cloud resources, but also there are some cloud agnostic modules to help with creation of local environments or to create some resources on Kuberentes Clusters. In the future also modules for different cloud providers will be added.
@@ -77,26 +79,31 @@ There is also script in .bin/update-md.sh which can be used to regenerate Terraf
 
 ### Examples
 
-The "examples/" directory is used to provide working examples of the modules in the "modules/" directory.
+The "examples/" directory is used to provide working examples for the modules in the "modules/" directory.
 Each module has its own example. The example module pretends to be root Terraform module.
 
 #### Execution of examples
 
-When you are logged in CLI to Azure Cloud (or other cloud depending on the module type), you can execute it by terraform command:
+When you are logged in CLI to Azure Cloud (or other cloud depending on the module type), you can execute it by terraform commands:
 
     terraform init
     terraform plan
     terraform apply
 
 "**terraform init**" will initialise the module locally and download all dependencies.
+
 Then "**terraform plan**" will prepare a plan what will be changed on the infrastructure
-Finally "**terraform apply**" will apply these changes on real infrastructure.
+
+Finally, "**terraform apply**" will apply these changes on real infrastructure.
+
 *Note: For production deployments create terraform plan file and use it as input for "terraform apply" input to avoid issue that something else was planned in "terraform plan" and something else is executed in "terraform apply"*
 
 ### Tests
 
 The "test/" directory consists of tests for each terraform module.
+
 Tests are written in Golang (https://go.dev/) and use Terratest framework (https://terratest.gruntwork.io/)
+
 In order to run tests you need to be logged in to Cloud provide (eg. Azure Cloud for Azure modules tests) in CLI. Tests create real resources in respective clouds, so be careful because it can be expensive.
 
 #### Execution of tests
@@ -104,6 +111,7 @@ You can run tests by going to test/ directory in CLI and run command:
 
     go test -v -timeout 60m
 All tests can take about 35+ min and it will be growing, as new modules will be created.
+
 Tests are based on examples/ of each module and creates real resources in the Azure Cloud.
 
 #### Tests code style
@@ -116,7 +124,9 @@ Each test is split in few sections:
 ## Continuous integration
 
 The project is hosted on Github and CI pipeline is created for Azure DevOps in azure-pipelines.yml file.
+
 It runs all tests inside Docker container.
+
 The Docker image (jkarkoszka/azure-terratest-runner) is also written specially for that repository and it's hosted on Docker Hub.
 
 ## Plans for future
@@ -128,15 +138,15 @@ The content of the repository is constantly changing: new modules are added and 
     - add cert-manager as tool for automatic TLS certificates management
 - Default AKS with NAT Gateway (to have single static outbound Public IP)
 - Azure Firewall (as low level module)
-- AKS with Azure Firewall = firewall + vnet + route for firewall
+- AKS with Azure Firewall = firewall + vnet + route table for firewall + aks with user defined outbound traffic.
 
 **Ideas for later:**
-- Multiple AKS with one Azure Firewall (Hub + Spokes design)
+- Multiple AKS (eg. for Dev, Staging and Prod) with one Azure Firewall (Hub-Spoke design)
 - Default Virtual Network with HA (3 subnets + 3 NAT Gateway in 3 AZ)
 - Default AKS with HA (Default Virtual Network with HA and 3 node pools in 3 AZs)
-- Modules for different Cloud Providers eg. AWS, Google Cloud, Digital Ocean
+- Modules for different Cloud Providers eg. AWS, GCP, Digital Ocean
 
-The general idea is that after some time here will be a library of ready to use modules for few Cloud Providers with default configuration which can be use to set up PoC very quickly.
+The general idea is that after some time here will be a library of ready to use modules for few Cloud Providers with default configuration which can be use eg. to set up PoC very quickly.
 
 ## Directory structure
 

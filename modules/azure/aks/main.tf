@@ -8,6 +8,36 @@ terraform {
   }
 }
 
+locals {
+  node_pool_defaults = {
+    min_count            = 1
+    node_count           = 1
+    max_count            = 1
+    vm_size              = "Standard_B2ms"
+    type                 = "VirtualMachineScaleSets"
+    enable_auto_scaling  = true
+    zones                = []
+    orchestrator_version = "1.24.9"
+    max_surge_on_upgrade = "100%"
+  }
+
+  user_node_pools = [
+    for user_node_pool in var.user_node_pools : {
+      name                 = user_node_pool.name
+      vnet_subnet_id       = user_node_pool.vnet_subnet_id
+      min_count            = user_node_pool.min_count != null ? user_node_pool.min_count : local.node_pool_defaults.min_count
+      node_count           = user_node_pool.node_count != null ? user_node_pool.node_count : local.node_pool_defaults.node_count
+      max_count            = user_node_pool.max_count != null ? user_node_pool.max_count : local.node_pool_defaults.max_count
+      vm_size              = user_node_pool.vm_size != null ? user_node_pool.vm_size : local.node_pool_defaults.vm_size
+      type                 = user_node_pool.type != null ? user_node_pool.type : local.node_pool_defaults.type
+      enable_auto_scaling  = user_node_pool.enable_auto_scaling != null ? user_node_pool.enable_auto_scaling : local.node_pool_defaults.enable_auto_scaling
+      zones                = user_node_pool.zones != null ? user_node_pool.zones : local.node_pool_defaults.zones
+      orchestrator_version = user_node_pool.orchestrator_version != null ? user_node_pool.orchestrator_version : local.node_pool_defaults.orchestrator_version
+      max_surge_on_upgrade = user_node_pool.max_surge_on_upgrade != null ? user_node_pool.max_surge_on_upgrade : local.node_pool_defaults.max_surge_on_upgrade
+    }
+  ]
+}
+
 resource "azurerm_kubernetes_cluster" "aks" {
   lifecycle {
     ignore_changes = [
@@ -23,23 +53,23 @@ resource "azurerm_kubernetes_cluster" "aks" {
   node_resource_group = "${var.prefix}-${var.label}-aks-node-rg"
 
   service_principal {
-    client_id = var.service_principal.client_id
+    client_id     = var.service_principal.client_id
     client_secret = var.service_principal.client_secret
   }
 
   default_node_pool {
     name                 = var.default_node_pool.name
     vnet_subnet_id       = var.default_node_pool.vnet_subnet_id
-    min_count            = var.default_node_pool.min_count != null ? var.default_node_pool.min_count : var.default_node_pool_defaults.min_count
-    node_count           = var.default_node_pool.node_count != null ? var.default_node_pool.node_count : var.default_node_pool_defaults.node_count
-    max_count            = var.default_node_pool.max_count != null ? var.default_node_pool.max_count : var.default_node_pool_defaults.max_count
-    vm_size              = var.default_node_pool.vm_size != null ? var.default_node_pool.vm_size : var.default_node_pool_defaults.vm_size
-    type                 = var.default_node_pool.type != null ? var.default_node_pool.type : var.default_node_pool_defaults.type
-    enable_auto_scaling  = var.default_node_pool.enable_auto_scaling != null ? var.default_node_pool.enable_auto_scaling : var.default_node_pool_defaults.enable_auto_scaling
-    zones                = var.default_node_pool.zones != null ? var.default_node_pool.zones : var.default_node_pool_defaults.zones
-    orchestrator_version = var.default_node_pool.orchestrator_version != null ? var.default_node_pool.orchestrator_version : var.default_node_pool_defaults.orchestrator_version
+    min_count            = var.default_node_pool.min_count != null ? var.default_node_pool.min_count : local.node_pool_defaults.min_count
+    node_count           = var.default_node_pool.node_count != null ? var.default_node_pool.node_count : local.node_pool_defaults.node_count
+    max_count            = var.default_node_pool.max_count != null ? var.default_node_pool.max_count : local.node_pool_defaults.max_count
+    vm_size              = var.default_node_pool.vm_size != null ? var.default_node_pool.vm_size : local.node_pool_defaults.vm_size
+    type                 = var.default_node_pool.type != null ? var.default_node_pool.type : local.node_pool_defaults.type
+    enable_auto_scaling  = var.default_node_pool.enable_auto_scaling != null ? var.default_node_pool.enable_auto_scaling : local.node_pool_defaults.enable_auto_scaling
+    zones                = var.default_node_pool.zones != null ? var.default_node_pool.zones : local.node_pool_defaults.zones
+    orchestrator_version = var.default_node_pool.orchestrator_version != null ? var.default_node_pool.orchestrator_version : local.node_pool_defaults.orchestrator_version
     upgrade_settings {
-      max_surge = var.default_node_pool.max_surge_on_upgrade != null ? var.default_node_pool.max_surge_on_upgrade : var.default_node_pool_defaults.max_surge_on_upgrade
+      max_surge = var.default_node_pool.max_surge_on_upgrade != null ? var.default_node_pool.max_surge_on_upgrade : local.node_pool_defaults.max_surge_on_upgrade
     }
     tags = var.tags
   }
@@ -58,20 +88,20 @@ resource "azurerm_kubernetes_cluster" "aks" {
 }
 
 resource "azurerm_kubernetes_cluster_node_pool" "node_pool" {
-  count = length(var.user_node_pools)
+  count = length(local.user_node_pools)
 
   kubernetes_cluster_id = azurerm_kubernetes_cluster.aks.id
-  name                  = var.user_node_pool_defaults[count.index].name
-  vnet_subnet_id        = var.user_node_pool_defaults[count.index].vnet_subnet_id
-  min_count             = var.user_node_pool_defaults[count.index].min_count != null ? var.user_node_pool_defaults[count.index].min_count : var.user_node_pool_defaults.min_count
-  node_count            = var.user_node_pool_defaults[count.index].node_count != null ? var.user_node_pool_defaults[count.index].node_count : var.user_node_pool_defaults.node_count
-  max_count             = var.user_node_pool_defaults[count.index].max_count != null ? var.user_node_pool_defaults[count.index].max_count : var.user_node_pool_defaults.max_count
-  vm_size               = var.user_node_pool_defaults[count.index].vm_size != null ? var.user_node_pool_defaults[count.index].vm_size : var.user_node_pool_defaults.vm_size
-  enable_auto_scaling   = var.user_node_pool_defaults[count.index].enable_auto_scaling != null ? var.user_node_pool_defaults[count.index].enable_auto_scaling : var.user_node_pool_defaults.enable_auto_scaling
-  zones                 = var.user_node_pool_defaults[count.index].zones != null ? var.user_node_pool_defaults[count.index].zones : var.user_node_pool_defaults.zones
-  orchestrator_version  = var.user_node_pool_defaults[count.index].orchestrator_version != null ? var.user_node_pool_defaults[count.index].orchestrator_version : var.user_node_pool_defaults.orchestrator_version
+  name                  = local.user_node_pools[count.index].name
+  vnet_subnet_id        = local.user_node_pools[count.index].vnet_subnet_id
+  min_count             = local.user_node_pools[count.index].min_count
+  node_count            = local.user_node_pools[count.index].node_count
+  max_count             = local.user_node_pools[count.index].max_count
+  vm_size               = local.user_node_pools[count.index].vm_size
+  enable_auto_scaling   = local.user_node_pools[count.index].enable_auto_scaling
+  zones                 = local.user_node_pools[count.index].zones
+  orchestrator_version  = local.user_node_pools[count.index].orchestrator_version
   upgrade_settings {
-    max_surge = var.user_node_pool_defaults[count.index].max_surge_on_upgrade != null ? var.user_node_pool_defaults[count.index].max_surge_on_upgrade : var.user_node_pool_defaults.max_surge_on_upgrade
+    max_surge = local.user_node_pools[count.index].max_surge_on_upgrade
   }
   tags = var.tags
 }

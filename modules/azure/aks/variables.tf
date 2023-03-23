@@ -99,32 +99,6 @@ variable "dns_service_ip" {
   default     = "10.0.0.10"
 }
 
-variable "default_node_pool_defaults" {
-  type = object({
-    min_count            = number
-    node_count           = number
-    max_count            = number
-    vm_size              = string
-    type                 = string
-    enable_auto_scaling  = bool
-    zones                = list(string)
-    orchestrator_version = string
-    max_surge_on_upgrade = string
-  })
-  description = "The default values of properties of the default node pool."
-  default     = {
-    min_count            = 1
-    node_count           = 1
-    max_count            = 1
-    vm_size              = "Standard_D2_v2"
-    type                 = "VirtualMachineScaleSets"
-    enable_auto_scaling  = true
-    zones                = []
-    orchestrator_version = "1.24.9"
-    max_surge_on_upgrade = "100%"
-  }
-}
-
 variable "user_node_pools" {
   type = list(object({
     name                 = string
@@ -141,32 +115,6 @@ variable "user_node_pools" {
   }))
   description = "The list of object with properties of additional user node pools."
   default     = []
-}
-
-variable "user_node_pool_defaults" {
-  type = object({
-    min_count            = number
-    node_count           = number
-    max_count            = number
-    vm_size              = string
-    type                 = string
-    enable_auto_scaling  = bool
-    zones                = list(string)
-    orchestrator_version = string
-    max_surge_on_upgrade = string
-  })
-  description = "The default values of properties of the user node pools."
-  default     = {
-    min_count            = 1
-    node_count           = 1
-    max_count            = 1
-    vm_size              = "Standard_B2ms"
-    type                 = "VirtualMachineScaleSets"
-    enable_auto_scaling  = true
-    zones                = []
-    orchestrator_version = "1.24.9"
-    max_surge_on_upgrade = "100%"
-  }
 }
 
 variable "tags" {
