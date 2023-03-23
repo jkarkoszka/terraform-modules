@@ -171,6 +171,6 @@ variable "user_node_pool_defaults" {
 
 variable "tags" {
   type        = map(string)
-  description = "Any tags that should be present on the resources"
+  description = "Any tags that should be present on the resources."
   default     = {}
 }

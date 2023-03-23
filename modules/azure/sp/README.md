@@ -41,17 +41,17 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_label"></a> [label](#input\_label) | The label | `string` | n/a | yes |
-| <a name="input_prefix"></a> [prefix](#input\_prefix) | The prefix | `string` | n/a | yes |
+| <a name="input_label"></a> [label](#input\_label) | The label. | `string` | n/a | yes |
+| <a name="input_prefix"></a> [prefix](#input\_prefix) | The prefix. | `string` | n/a | yes |
 | <a name="input_role"></a> [role](#input\_role) | The name of a role for the service principal. | `string` | `"Contributor"` | no |
 | <a name="input_rotation_days"></a> [rotation\_days](#input\_rotation\_days) | (Number) Number of days to add to the base timestamp to configure the rotation timestamp. When the current time has passed the rotation timestamp, the resource will trigger recreation. | `number` | `31` | no |
 | <a name="input_scopes"></a> [scopes](#input\_scopes) | A list of scopes the role assignment applies to. Default is subscription wide. | `list(string)` | `[]` | no |
-| <a name="input_tags"></a> [tags](#input\_tags) | Any tags that should be present on the resources | `map(string)` | `{}` | no |
+| <a name="input_tags"></a> [tags](#input\_tags) | Any tags that should be present on the resources. | `map(string)` | `{}` | no |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
-| <a name="output_client_id"></a> [client\_id](#output\_client\_id) | The Client ID (appId) for the Service Principal |
-| <a name="output_client_secret"></a> [client\_secret](#output\_client\_secret) | The Client Secret (password) for the Service Principal used for the AKS deployment |
-| <a name="output_name"></a> [name](#output\_name) | Application SP name |
+| <a name="output_client_id"></a> [client\_id](#output\_client\_id) | The Client ID (appId) for the Service Principal. |
+| <a name="output_client_secret"></a> [client\_secret](#output\_client\_secret) | The Client Secret (password) for the Service Principal used for the AKS deployment. |
+| <a name="output_name"></a> [name](#output\_name) | Application SP name. |

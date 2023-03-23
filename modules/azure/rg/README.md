@@ -29,13 +29,13 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_label"></a> [label](#input\_label) | The label | `string` | n/a | yes |
-| <a name="input_location"></a> [location](#input\_location) | The location | `string` | n/a | yes |
-| <a name="input_prefix"></a> [prefix](#input\_prefix) | The prefix | `string` | n/a | yes |
-| <a name="input_tags"></a> [tags](#input\_tags) | Any tags that should be present on the resources | `map(string)` | `{}` | no |
+| <a name="input_label"></a> [label](#input\_label) | The label. | `string` | n/a | yes |
+| <a name="input_location"></a> [location](#input\_location) | The location. | `string` | n/a | yes |
+| <a name="input_prefix"></a> [prefix](#input\_prefix) | The prefix. | `string` | n/a | yes |
+| <a name="input_tags"></a> [tags](#input\_tags) | Any tags that should be present on the resources. | `map(string)` | `{}` | no |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
-| <a name="output_id"></a> [id](#output\_id) | Resource group ID |
+| <a name="output_id"></a> [id](#output\_id) | Resource group ID. |

@@ -4,19 +4,19 @@
 
 variable "location" {
   type        = string
-  description = "The location"
+  description = "The location."
   default     = "westeurope"
 }
 
 variable "prefix" {
   type        = string
-  description = "The prefix"
+  description = "The prefix."
   default     = "tftest"
 }
 
 variable "label" {
   type        = string
-  description = "The vnet label"
+  description = "The label."
   default     = "abcdfg"
 }
 
@@ -34,7 +34,7 @@ variable "subnets" {
     nat_gateway      = optional(object({ name = string, resource_group_name = string }))
     nsg              = optional(object({ name = string, resource_group_name = string }))
   }))
-  description = "A list of subnets to create within the Azure Virtual Network"
+  description = "A list of subnets to create within the Azure Virtual Network."
   default     = [
     {
       label            = "main"
@@ -84,7 +84,7 @@ variable "zone" {
 
 variable "tags" {
   type        = map(string)
-  description = "Any tags that should be present on the resources"
+  description = "Any tags that should be present on the resources."
   default     = {
     tfTest = true
   }

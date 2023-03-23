@@ -4,17 +4,17 @@
 
 variable "prefix" {
   type        = string
-  description = "The prefix"
+  description = "The prefix."
 }
 
 variable "location" {
   type        = string
-  description = "The location"
+  description = "The location."
 }
 
 variable "label" {
   type        = string
-  description = "The label"
+  description = "The label."
 }
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -23,6 +23,6 @@ variable "label" {
 
 variable "tags" {
   type        = map(string)
-  description = "Any tags that should be present on the resources"
+  description = "Any tags that should be present on the resources."
   default     = {}
 }

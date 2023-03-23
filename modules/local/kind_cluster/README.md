@@ -44,9 +44,9 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_k8s_version"></a> [k8s\_version](#input\_k8s\_version) | Kubernetes version (tag of the kindest/node docker image) | `string` | `"kindest/node:v1.24.7"` | no |
-| <a name="input_label"></a> [label](#input\_label) | The label | `string` | n/a | yes |
-| <a name="input_prefix"></a> [prefix](#input\_prefix) | The prefix | `string` | n/a | yes |
+| <a name="input_k8s_version"></a> [k8s\_version](#input\_k8s\_version) | Kubernetes version - tag of the kindest/node docker image. | `string` | `"kindest/node:v1.24.7"` | no |
+| <a name="input_label"></a> [label](#input\_label) | The label. | `string` | n/a | yes |
+| <a name="input_prefix"></a> [prefix](#input\_prefix) | The prefix. | `string` | n/a | yes |
 
 ## Outputs
 

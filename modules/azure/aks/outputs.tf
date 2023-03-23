@@ -17,7 +17,7 @@ output "client_certificate" {
 output "client_key" {
   value       = azurerm_kubernetes_cluster.aks.kube_config[0].client_key
   sensitive   = true
-  description = " Client key for authenticating to cluster."
+  description = "Client key for authenticating to cluster."
 }
 
 output "cluster_ca_certificate" {

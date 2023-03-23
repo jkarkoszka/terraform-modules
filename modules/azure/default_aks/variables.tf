@@ -4,22 +4,22 @@
 
 variable "prefix" {
   type        = string
-  description = "The prefix"
+  description = "The prefix."
 }
 
 variable "location" {
   type        = string
-  description = "The location"
+  description = "The location."
 }
 
 variable "resource_group_name" {
   type        = string
-  description = "The name of your Resource Group"
+  description = "The name of your Resource Group."
 }
 
 variable "label" {
   type        = string
-  description = "The label"
+  description = "The label."
 }
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -46,7 +46,7 @@ variable "subnet_label" {
 
 variable "default_node_pool_name" {
   type        = string
-  description = "(Optional) Default node pool name. Defaults to 'system-node-pool'."
+  description = "(Optional) Default node pool name. Defaults to 'nodepool'."
   default     = "nodepool"
 }
 
@@ -124,7 +124,7 @@ variable "user_node_pools" {
 
 variable "tags" {
   type        = map(string)
-  description = "Any tags that should be present on the resources"
+  description = "Any tags that should be present on the resources."
   default     = {
     tfTest = true
   }

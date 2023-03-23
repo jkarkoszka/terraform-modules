@@ -4,12 +4,12 @@
 
 variable "prefix" {
   type        = string
-  description = "The prefix"
+  description = "The prefix."
 }
 
 variable "label" {
   type        = string
-  description = "The label"
+  description = "The label."
 }
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -18,6 +18,6 @@ variable "label" {
 
 variable "k8s_version" {
   type = string
-  description = "Kubernetes version (tag of the kindest/node docker image)"
+  description = "Kubernetes version - tag of the kindest/node docker image."
   default = "kindest/node:v1.24.7"
 }
