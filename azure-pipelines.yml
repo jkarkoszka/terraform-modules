@@ -26,7 +26,7 @@ stages:
                 --build-arg ARM_CLIENT_ID=$(ARM_CLIENT_ID) \
                 --build-arg ARM_CLIENT_SECRET=$(ARM_CLIENT_SECRET) \
                 --build-arg ARM_TENANT_ID=$(ARM_TENANT_ID) \
-                --build-arg ARM_TENANT_ID=$(ARM_TENANT_ID) \
+                --build-arg ARM_SUBSCRIPTION_ID=$(ARM_SUBSCRIPTION_ID) \
                 -t terraform_test \
                 .
               docker run --network host -v /var/run/docker.sock:/var/run/docker.sock terraform_test
